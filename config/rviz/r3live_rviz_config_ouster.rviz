@@ -2058,7 +2058,7 @@ Visualization Manager:
       Name: RGB_map
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera/image_color
+      Image Topic: /hikrobot_camera/rgb
       Max Value: 1
       Median window: 5
       Min Value: 0

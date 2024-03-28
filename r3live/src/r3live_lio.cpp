@@ -138,6 +138,30 @@ bool R3LIVE::get_pointcloud_data_from_ros_message( sensor_msgs::PointCloud2::Con
             pcl_pc.points.resize( pt_count );
             return true;
         }
+        else if ( (msg->fields.size() == 6))
+        {
+            pcl::PointCloud< pcl::PointXYZI> pcl_xyzi_pc;
+            int pt_count = 0;
+            pcl::fromROSMsg( *msg, pcl_xyzi_pc );
+            pcl_pc.resize(pcl_xyzi_pc.points.size());
+            for (int i = 0; i< pcl_xyzi_pc.size(); i++)
+            {
+                pcl::_PointXYZINormal temp_pt;
+                temp_pt.x = pcl_xyzi_pc.points[i].x;
+                temp_pt.y = pcl_xyzi_pc.points[i].y;
+                temp_pt.z = pcl_xyzi_pc.points[i].z;
+                // double frame_dis = sqrt( temp_pt.x **2 + temp_pt.y **2 +temp_pt.z **2 );
+                // if (frame_dis > maximum_range)
+                   
+                temp_pt.intensity = pcl_xyzi_pc.points[i].intensity;
+                temp_pt.curvature = 0;
+                pcl_pc.points[pt_count] = temp_pt;
+                pt_count++;
+            }
+            // pcl_pc.points.resize(pt_count);
+            return true;            
+        }
+
         else // TODO, can add by yourself
         {
             cout << "Get pointcloud data from ros messages fail!!! ";

@@ -94,6 +94,7 @@ class RGB_pts
         m_rgb[ 0 ] = 0;
         m_rgb[ 1 ] = 0;
         m_rgb[ 2 ] = 0;
+        // m_rgb_list_index
         m_gray = 0;
         m_cov_gray = 0;
         m_N_gray = 0;

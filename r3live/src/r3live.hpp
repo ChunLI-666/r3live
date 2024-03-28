@@ -386,7 +386,7 @@ public:
             get_ros_parameter( m_ros_node_handle, "r3live_lio/filter_size_map", filter_size_map_min, 0.4 );
             get_ros_parameter( m_ros_node_handle, "r3live_lio/cube_side_length", cube_len, 10000000.0 );
             get_ros_parameter( m_ros_node_handle, "r3live_lio/maximum_pt_kdtree_dis", m_maximum_pt_kdtree_dis, 0.5 );
-            get_ros_parameter( m_ros_node_handle, "r3live_lio/maximum_res_dis", m_maximum_res_dis, 0.3 );
+            get_ros_parameter( m_ros_node_handle, "r3live_lio/maximum_res_dis", m_maximum_res_dis, 0.1 );
             get_ros_parameter( m_ros_node_handle, "r3live_lio/planar_check_dis", m_planar_check_dis, 0.10 );
             get_ros_parameter( m_ros_node_handle, "r3live_lio/long_rang_pt_dis", m_long_rang_pt_dis, 500.0 );
             get_ros_parameter( m_ros_node_handle, "r3live_lio/publish_feature_map", m_if_publish_feature_map, false );

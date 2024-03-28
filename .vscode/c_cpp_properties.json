@@ -1,0 +1,53 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/icl2sgh/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/bagmode/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/change_detection/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/change_detection_msgs/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/cr_gridmap/include/**",
+        "/home/icl2sgh/catkin_ws/src/geographic_transform/include/**",
+        "/home/icl2sgh/catkin_ws/src/imu_tools/imu_complementary_filter/include/**",
+        "/home/icl2sgh/catkin_ws/src/imu_tools/imu_filter_madgwick/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/inc_loc/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/lidar_slam/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/lidar_slam_msgs/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/lidar_slam_plugins/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/matplotlib_cpp/include/**",
+        "/home/icl2sgh/catkin_ws/src/multi_lidar_tf/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/ndt/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/ndt_plugins/include/**",
+        "/home/icl2sgh/catkin_ws/src/ouster-ros/include/**",
+        "/home/icl2sgh/catkin_ws/src/ros_compat/ros_compat/include/**",
+        "/home/icl2sgh/catkin_ws/src/ros_compat/ros_compat_demo/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/scan_matcher/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/slam_common/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/slam_control/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/slam_graph_inspection/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/slam_ground_truth/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/slam_introspection/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/slam_protobuf/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/slam_rviz_plugin/include/**",
+        "/home/icl2sgh/catkin_ws/src/cr_slam/topicmode/include/**",
+        "/home/icl2sgh/catkin_ws/src/imu_HWT905/uwb_serial/include/**",
+        "/home/icl2sgh/catkin_ws/src/velodyne/velodyne_driver/include/**",
+        "/home/icl2sgh/catkin_ws/src/velodyne/velodyne_laserscan/include/**",
+        "/home/icl2sgh/catkin_ws/src/velodyne/velodyne_pcl/include/**",
+        "/home/icl2sgh/catkin_ws/src/velodyne/velodyne_pointcloud/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

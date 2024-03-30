@@ -608,6 +608,8 @@ double get_huber_loss_scale( double reprojection_error, double outlier_threshold
 const int minimum_iteration_pts = 10;
 bool      R3LIVE::vio_esikf( StatesGroup &state_in, Rgbmap_tracker &op_track )
 {
+    int    if_esikf = 0;
+
     Common_tools::Timer tim;
     tim.tic();
     scope_color( ANSI_COLOR_BLUE_BOLD );
@@ -742,15 +744,20 @@ bool      R3LIVE::vio_esikf( StatesGroup &state_in, Rgbmap_tracker &op_track )
             break;
         }
 
-        H_mat_spa = H_mat.sparseView();
-        Eigen::SparseMatrix< double > Hsub_T_temp_mat = H_mat_spa.transpose();
-        vec_spa = ( state_iter - state_in ).sparseView();
-        H_T_H_spa = Hsub_T_temp_mat * H_mat_spa;
-        // Notice that we have combine some matrix using () in order to boost the matrix multiplication.
-        Eigen::SparseMatrix< double > temp_inv_mat =
-            ( ( H_T_H_spa.toDense() + eigen_mat< -1, -1 >( state_in.cov * m_cam_measurement_weight ).inverse() ).inverse() ).sparseView();
-        KH_spa = temp_inv_mat * ( Hsub_T_temp_mat * H_mat_spa );
-        solution = ( temp_inv_mat * ( Hsub_T_temp_mat * ( ( -1 * meas_vec.sparseView() ) ) ) - ( I_STATE_spa - KH_spa ) * vec_spa ).toDense();
+            H_mat_spa = H_mat.sparseView();
+            Eigen::SparseMatrix< double > Hsub_T_temp_mat = H_mat_spa.transpose();
+            vec_spa = ( state_iter - state_in ).sparseView();
+            H_T_H_spa = Hsub_T_temp_mat * H_mat_spa;
+            // Notice that we have combine some matrix using () in order to boost the matrix multiplication.
+            Eigen::SparseMatrix< double > temp_inv_mat =
+                ( ( H_T_H_spa.toDense() + eigen_mat< -1, -1 >( state_in.cov * m_cam_measurement_weight ).inverse() ).inverse() ).sparseView();
+            KH_spa = temp_inv_mat * ( Hsub_T_temp_mat * H_mat_spa );
+
+        if ( if_esikf )
+        {
+
+            solution = ( temp_inv_mat * ( Hsub_T_temp_mat * ( ( -1 * meas_vec.sparseView() ) ) ) - ( I_STATE_spa - KH_spa ) * vec_spa ).toDense();
+        }
 
         state_iter = state_iter + solution;
 
@@ -813,7 +820,7 @@ bool R3LIVE::vio_photometric( StatesGroup &state_in, Rgbmap_tracker &op_track, s
     double last_repro_err = 3e8;
     int    avail_pt_count = 0;
     double last_avr_repro_err = 0;
-    int    if_esikf = 1;
+    int    if_esikf = 0;
 
     double acc_photometric_error = 0;
 #if DEBUG_PHOTOMETRIC
@@ -1162,7 +1169,7 @@ void R3LIVE::service_VIO_update()
         tim.tic( "Frame" );
         tim.tic( "Track_img" );
         StatesGroup state_out;
-        m_cam_measurement_weight = std::max( 0.001, std::min( 5.0 / m_number_of_new_visited_voxel, 0.01 ) );
+        // m_cam_measurement_weight = std::max( 0.001, std::min( 5.0 / m_number_of_new_visited_voxel, 0.01 ) );
         if ( vio_preintegration( g_lio_state, state_out, img_pose->m_timestamp + g_lio_state.td_ext_i2c ) == false )
         {
             m_mutex_lio_process.unlock();
@@ -1203,6 +1210,8 @@ void R3LIVE::service_VIO_update()
                 m_map_rgb_pts.m_if_get_all_pts_in_boxes_using_mp = 0;
                 // m_map_rgb_pts.render_pts_in_voxels_mp(img_pose, &m_map_rgb_pts.m_rgb_pts_in_recent_visited_voxels,
                 // img_pose->m_timestamp);
+                // 申请一个线程，执行render_pts_in_voxels_mp(...)，在该函数中并行地将点云地图的active点投影到图像上，用对应的像素对地图点rgb的均值和方差用贝叶斯迭代进行更新。
+                // 这里用到了opencv提供的parallel_for_机制，以及intel TBB库
                 m_render_thread = std::make_shared< std::shared_future< void > >( m_thread_pool_ptr->commit_task(
                     render_pts_in_voxels_mp, img_pose, &m_map_rgb_pts.m_voxels_recent_visited, img_pose->m_timestamp ) );
             }
@@ -1227,7 +1236,11 @@ void R3LIVE::service_VIO_update()
         dump_lio_state_to_log( m_lio_state_fp );
         m_mutex_lio_process.unlock();
         // cout << "Solve image pose cost " << tim.toc("Solve_pose") << endl;
+        
+        // 调用m_map_rgb_pts.update_pose_for_projection( img_pose, -0.4 ); 更新m_img_for_projection的位姿和id，以触发refresh线程
+        // Global_map::service_refresh_pts_for_projection()将点云的active点投影到2D（方便后面新增跟踪点） 
         m_map_rgb_pts.update_pose_for_projection( img_pose, -0.4 );
+       
         op_track.update_and_append_track_pts( img_pose, m_map_rgb_pts, m_track_windows_size / m_vio_scale_factor, 1000000 );
         g_cost_time_logger.record( tim, "Frame" );
         double frame_cost = tim.toc( "Frame" );

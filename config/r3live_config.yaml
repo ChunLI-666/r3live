@@ -39,9 +39,10 @@ r3live_vio:
    
 r3live_lio:        
    lio_update_point_step: 4   # Point step used for LIO update.  
-   max_iteration: 2           # Maximum times of LIO esikf.
+   max_iteration: 8           # Maximum times of LIO esikf.
    lidar_time_delay: 0        # The time-offset between LiDAR and IMU, provided by user. 
    filter_size_corner: 0.30   
    filter_size_surf: 0.30
    filter_size_surf_z: 0.30
    filter_size_map: 0.30
+

@@ -3,6 +3,7 @@
     <param name="/LiDAR_pointcloud_topic" type="string" value= "/laser_cloud" />
     <param name="/IMU_topic" type="string" value= "/wit/imu" />
     <param name="/Image_topic" type="string" value= "/hikrobot_camera/rgb" />
+    <!-- <param name="/Image_topic" type="string" value= "" /> -->
     <param name="map_output_dir" type="string" value="$(env HOME)/r3live_output" />
     <rosparam command="load" file="$(find r3live)/../config/r3live_config_zhongnan.yaml" />
     

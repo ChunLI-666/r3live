@@ -274,7 +274,7 @@ public:
 
     double m_image_downsample_ratio = 1.0;
     nav_msgs::Path camera_path;
-    double m_cam_measurement_weight =  1e-3;
+    double m_cam_measurement_weight =  (0.00000001);
     int m_if_pub_raw_img = 1;
     int esikf_iter_times = 2;
     std::vector<std::shared_ptr<RGB_pts>> m_last_added_rgb_pts_vec;
